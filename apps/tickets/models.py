@@ -159,3 +159,17 @@ class TicketActivity(models.Model):
 
     def __str__(self):
         return f"{self.ticket.ticket_number} - {self.action}"
+
+class TicketSequence(models.Model):
+    id = models.PositiveSmallIntegerField(
+        primary_key=True,
+        default=1,
+        editable=False,
+    ) 
+
+    last_number = models.PositiveIntegerField(
+        default=1000
+    ) 
+
+    def __str__(self):
+        return f"Ticket sequence: {self.last_number}"  
