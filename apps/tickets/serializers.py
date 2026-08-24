@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from .models import Category, Ticket
 from .service import TicketService
+from apps.users.models import User
 
 
 class TicketCreateSerializer(serializers.Serializer):
@@ -59,3 +60,33 @@ class TicketSerializer(serializers.ModelSerializer):
             "resolved_at",
             "closed_at",
         ]
+class AssignTicketSerializer(serializers.Serializer):
+    agent_id = serializers.IntegerField()
+
+    def validate_agent_id(self, value):
+        try:
+            agent = User.objects.get(
+                id=value,
+                role=User.Role.SUPPORT_AGENT,
+                is_active=True,
+            )
+        except User.DoesNotExist:
+            raise serializers.ValidationError(
+                "Active support agent not found."
+            )
+
+        return value
+
+    def save(self, **kwargs):
+        ticket = self.context["ticket"]
+        actor = self.context["request"].user
+
+        agent = User.objects.get(
+            id=self.validated_data["agent_id"]
+        )
+
+        return TicketService.assign_ticket(
+            ticket=ticket,
+            agent=agent,
+            actor=actor,
+        )        
