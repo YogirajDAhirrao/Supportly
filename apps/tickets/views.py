@@ -9,13 +9,14 @@ from .serializers import TicketCreateSerializer, TicketSerializer
 from .models import Ticket
 from .permissions import isSupportAdmin
 from .serializers import *
+from .selectors import get_visible_tickets,get_ticket_for_user
 
 
 class TicketListCreateView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        tickets = request.user.created_tickets.all()
+        tickets = get_visible_tickets(request.user)
 
         serializer = TicketSerializer(
             tickets,
@@ -67,3 +68,19 @@ class TicketAssignView(APIView):
             TicketSerializer(ticket).data,
             status=status.HTTP_200_OK,
         )    
+
+class TicketDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self,request,ticket_id):
+        ticket = get_ticket_for_user(request.user,ticket_id)
+
+        if ticket is None:
+            return Response({
+                "detail":"Ticket not found."
+            },
+            status=status.HTTP_404_NOT_FOUND,)    
+
+        serializer = TicketSerializer(ticket)
+
+        return Response(serializer.data)
