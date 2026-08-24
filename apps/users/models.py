@@ -5,6 +5,9 @@ class User(AbstractUser):
         CUSTOMER = "CUSTOMER","Customer",
         SUPPORT_ADMIN = "SUPPORT_ADMIN","Support Admin",
         SUPPORT_AGENT = "SUPPORT_AGENT","Support Agent"
+
+    email = models.EmailField(unique=True)
+        
     role = models.CharField(
         max_length=20,
         choices=Role.choices,
