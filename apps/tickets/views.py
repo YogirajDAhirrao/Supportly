@@ -84,3 +84,27 @@ class TicketDetailView(APIView):
         serializer = TicketSerializer(ticket)
 
         return Response(serializer.data)
+
+class TicketStatusView(APIView):
+    permission_classes = [IsAuthenticated]
+    def patch(self,request,ticket_id):
+        ticket = get_object_or_404(Ticket,id=ticket_id)
+
+        serializers = TicketStatusSerilaizer(data = request.data)
+
+        serializers.is_valid(raise_exception=True)
+
+        try:
+            ticket = TicketService.update_status(
+                ticket=ticket,
+                new_status=serializers.validated_data['status'],
+                actor=request.user,
+            )    
+        except ValueError as exc:
+            return Response({
+                "detail": str(exc)
+            },
+            status=status.HTTP_400_BAD_REQUEST,)  
+
+        return Response(TicketSerializer(ticket).data)
+      

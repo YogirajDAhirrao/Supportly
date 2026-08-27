@@ -89,4 +89,7 @@ class AssignTicketSerializer(serializers.Serializer):
             ticket=ticket,
             agent=agent,
             actor=actor,
-        )        
+        )  
+
+class TicketStatusSerilaizer(serializers.Serializer):
+    status = serializers.ChoiceField(choices=Ticket.Status.choices)          

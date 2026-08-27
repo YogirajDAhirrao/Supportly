@@ -2,7 +2,7 @@ from rest_framework.permissions import BasePermission
 
 from apps.users.models import User
 
-class isSupportAdmin(BasePermission):
+class                                                                                                   isSupportAdmin(BasePermission):
     message = "Only support admins can perform this action."
     def has_permission(self, request, view):
         return (request.user.is_authenticated and request.user.role == User.Role.SUPPORT_ADMIN)
