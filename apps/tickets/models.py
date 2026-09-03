@@ -173,3 +173,5 @@ class TicketSequence(models.Model):
 
     def __str__(self):
         return f"Ticket sequence: {self.last_number}"  
+
+    

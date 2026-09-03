@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import TicketListCreateView, TicketAssignView, TicketDetailView, TicketStatusView
+from .views import TicketListCreateView, TicketAssignView, TicketDetailView, TicketStatusView, TicketMessageView
 
 
 urlpatterns = [
@@ -19,6 +19,9 @@ urlpatterns = [
     "<uuid:ticket_id>/status/",
     TicketStatusView.as_view(),
     name="ticket-status",
-),
-
+    ),path(
+    "<uuid:ticket_id>/messages/",
+    TicketMessageView.as_view(),
+    name="ticket-messages",
+    ),
 ]

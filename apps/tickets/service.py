@@ -3,7 +3,7 @@ from django.db import transaction
 from django.utils import timezone
 from .models import Ticket, TicketActivity, TicketSequence
 from apps.users.models import User
-from .models import Ticket, TicketActivity
+from .models import Ticket, TicketActivity, Message
 
 
 class TicketService:
@@ -129,3 +129,28 @@ class TicketService:
         TicketActivity.objects.create(ticket=ticket,actor=actor,action = "STATUS CHANGED",old_value = {"status":old_status},new_value = {"status":new_status})   
 
         return ticket
+
+    @staticmethod
+    @transaction.atomic
+    def create_message(*, ticket, sender, content):
+        if ticket.status == Ticket.Status.CLOSED:
+            raise ValueError(
+            "Cannot send a message on a closed ticket."
+        )
+
+        message = Message.objects.create(
+        ticket=ticket,
+        sender=sender,
+        content=content,
+    )
+
+        TicketActivity.objects.create(
+        ticket=ticket,
+        actor=sender,
+        action="MESSAGE_ADDED",
+        new_value={
+            "message_id": str(message.id),
+        },
+    )
+
+        return message

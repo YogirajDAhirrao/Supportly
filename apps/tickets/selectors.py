@@ -2,7 +2,7 @@ from django.db.models import QuerySet
 
 from apps.users.models import User
 
-from .models import Ticket
+from .models import Ticket, Message
 
 
 def get_visible_tickets(user: User) -> QuerySet[Ticket]:
@@ -64,3 +64,6 @@ def get_ticket_for_user(
         ).first()
 
     return None
+
+def get_ticket_messages(ticket):
+    return Message.objects.filter(ticket=ticket).select_related("sender").order_by("created_at")
