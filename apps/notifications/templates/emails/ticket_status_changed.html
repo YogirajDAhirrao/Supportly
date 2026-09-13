@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Ticket Status Updated</title>
+</head>
+<body>
+    <h2>Your Ticket Status Has Been Updated</h2>
+
+    <p>Hi {{ customer_name }},</p>
+
+    <p>
+        The status of your support ticket has been updated.
+    </p>
+
+    <p><strong>Ticket:</strong> #{{ ticket_id }}</p>
+    <p><strong>Subject:</strong> {{ ticket_subject }}</p>
+    <p><strong>Previous Status:</strong> {{ old_status }}</p>
+    <p><strong>New Status:</strong> {{ new_status }}</p>
+
+    <p>
+        Please check Supportly for the latest updates.
+    </p>
+
+    <p>Regards,<br>Supportly Team</p>
+</body>
+</html>

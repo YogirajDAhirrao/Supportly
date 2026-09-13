@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Agent Assigned</title>
+</head>
+<body>
+    <h2>Agent Assigned to Your Ticket</h2>
+
+    <p>Hi {{ customer_name }},</p>
+
+    <p>
+        An agent has been assigned to your support ticket.
+    </p>
+
+    <p><strong>Ticket:</strong> #{{ ticket_id }}</p>
+    <p><strong>Subject:</strong> {{ ticket_subject }}</p>
+    <p><strong>Assigned Agent:</strong> {{ agent_name }}</p>
+
+    <p>
+        You will receive further updates as your ticket progresses.
+    </p>
+
+    <p>Regards,<br>Supportly Team</p>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Ticket Assigned</title>
+</head>
+<body>
+    <h2>Ticket Assigned to You</h2>
+
+    <p>Hi {{ agent_name }},</p>
+
+    <p>
+        A new support ticket has been assigned to you.
+    </p>
+
+    <p><strong>Ticket:</strong> #{{ ticket_id }}</p>
+    <p><strong>Subject:</strong> {{ ticket_subject }}</p>
+    <p><strong>Priority:</strong> {{ ticket_priority }}</p>
+    <p><strong>Customer:</strong> {{ customer_name }}</p>
+
+    <p>
+        Please review the ticket and respond to the customer.
+    </p>
+
+    <p>Regards,<br>Supportly Team</p>
+</body>
+</html>
