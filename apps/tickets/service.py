@@ -3,6 +3,7 @@ from django.db import transaction
 from django.utils import timezone
 from .models import Ticket, TicketActivity, TicketSequence
 from apps.users.models import User
+from apps.notifications.services import NotificationService
 from .models import Ticket, TicketActivity, Message
 
 
@@ -72,6 +73,8 @@ class TicketService:
                 "assigned_agent": str(agent.id),
             },
         )
+
+        transaction.on_commit(lambda:NotificationService.ticket_assigned(ticket))
 
         return ticket
 
