@@ -130,7 +130,13 @@ class TicketService:
         ) 
 
         TicketActivity.objects.create(ticket=ticket,actor=actor,action = "STATUS CHANGED",old_value = {"status":old_status},new_value = {"status":new_status})   
-
+        transaction.on_commit(
+        lambda: NotificationService.ticket_status_changed(
+        ticket,
+        old_status,
+        new_status,
+        )
+)
         return ticket
 
     @staticmethod

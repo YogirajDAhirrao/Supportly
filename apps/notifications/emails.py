@@ -52,3 +52,40 @@ def send_ticket_assigned_email(ticket):
 
     customer_email.attach_alternative(customer_html, "text/html")
     customer_email.send()
+
+def send_ticket_status_changed_email(
+    ticket,
+    old_status,
+    new_status,
+):
+    customer = ticket.customer
+
+    context = {
+        "ticket_id": ticket.ticket_number,
+        "ticket_subject": ticket.subject,
+        "customer_name": customer.get_full_name(),
+        "old_status": old_status,
+        "new_status": new_status,
+    }
+
+    customer_html = render_to_string(
+        "emails/ticket_status_changed.html",
+        context,
+    )
+
+    customer_email = EmailMultiAlternatives(
+        subject=f"Ticket {ticket.ticket_number} status updated",
+        body=(
+            f"Your ticket {ticket.ticket_number} "
+            f"status changed from {old_status} to {new_status}."
+        ),
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[customer.email],
+    )
+
+    customer_email.attach_alternative(
+        customer_html,
+        "text/html",
+    )
+
+    customer_email.send()   
